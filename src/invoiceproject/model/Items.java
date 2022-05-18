@@ -62,6 +62,7 @@ public class Items {
         return "Items{" + "num=" + num + ", item=" + item + ", price=" + price + ", count=" + count + '}';
     }
     
-    
-    
+    public String getAsCSV() {
+        return num + "," + item + "," + price + "," + count;
+    }
 }

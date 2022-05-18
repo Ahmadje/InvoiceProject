@@ -8,9 +8,11 @@ package invoiceproject.view;
 import invoiceproject.controller.Controller;
 import invoiceproject.model.Invoice;
 import invoiceproject.model.InvoicesTableModel;
+import invoiceproject.model.ItemsTableModel;
 import java.awt.Label;
 import java.util.ArrayList;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
 
 /**
  *
@@ -53,6 +55,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
         deleteItemButton.addActionListener(controller);
         deleteInvoiceButton = new javax.swing.JButton();
         deleteInvoiceButton.addActionListener(controller);
+
         createInvoiceButton = new javax.swing.JButton();
         createInvoiceButton.addActionListener(controller);
         jLabel1 = new javax.swing.JLabel();
@@ -309,6 +312,10 @@ private InvoicesTableModel invoicesTableModel;
 
     public Controller getController() {
         return controller;
+    }
+
+    public ListSelectionEvent getItemsTableModel(int selectedRow) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 

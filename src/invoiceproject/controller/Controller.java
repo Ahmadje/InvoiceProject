@@ -8,12 +8,16 @@ import invoiceproject.model.ItemsTableModel;
 import invoiceproject.view.InvoiceFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -53,6 +57,7 @@ public class Controller implements ActionListener, ListSelectionListener {
     @Override
     public void valueChanged(ListSelectionEvent e) {
         int selectedIndex = frame.getInvoiceTable().getSelectedRow();
+        if (selectedIndex !=-1){
         Invoice currentInovice = frame.getInvoices().get(selectedIndex);
         frame.getInvoiceNumLabel().setText(""+currentInovice.getNum());
         frame.getInvoiceDateLabel().setText(""+currentInovice.getDate());
@@ -60,7 +65,8 @@ public class Controller implements ActionListener, ListSelectionListener {
         frame.getInvoiceTotalLabel().setText(""+currentInovice.getInvoiceTotal());
         ItemsTableModel itemsTableModel = new ItemsTableModel(currentInovice.getItems());
         frame.getItemsTable().setModel(itemsTableModel);
-        itemsTableModel.fireTableDataChanged();         
+        itemsTableModel.fireTableDataChanged();
+        }
     }
     
     private void loadFile() {
@@ -123,18 +129,55 @@ public class Controller implements ActionListener, ListSelectionListener {
     }
    
     private void saveFile() {
-        JFileChooser fs = new JFileChooser();
-        int result = fs.showSaveDialog(frame);
-//        if (result == JFileChooser.APPROVE_OPTION){
-//            String pathSaver = fs.getSelectedFile().getPath();
-//            Path savePath = Paths.get(pathSaver);                        
-    }            
-
+        ArrayList<Invoice> invoices = frame.getInvoices();
+        String headers = "";
+        String lines = "";
+        for (Invoice invoice : invoices){
+            String invCSV = invoice.getAsCSV();
+            headers += invCSV;
+            headers += "\n";
+            
+            for (Items items : invoice.getItems()){
+                String itemCSV = items.getAsCSV();
+                lines += itemCSV;
+                lines += "\n";                
+            }
+        }
+        try {    
+            JFileChooser fs = new JFileChooser();
+            int result = fs.showSaveDialog(frame);
+            if (result == JFileChooser.APPROVE_OPTION){
+                File headerSaver = fs.getSelectedFile();                       
+                FileWriter headerfw = new FileWriter(headerSaver);           
+                headerfw.write(headers);
+                headerfw.flush();
+                headerfw.close();
+                result = fs.showSaveDialog(frame);
+                if (result == JFileChooser.APPROVE_OPTION){
+                    File itemSaver = fs.getSelectedFile();         
+                    FileWriter linerfw = new FileWriter(itemSaver);           
+                    linerfw.write(lines);
+                    linerfw.flush();
+                    linerfw.close();
+                }
+            }
+        }
+        catch (Exception ex) {}        
+    }                                                                                               
     private void createNewInvoice() {
         
     }
 
     private void deleteInvoice() {
+        int selectedRow = frame.getItemsTable().getSelectedRow();
+        int selectedInv = frame.getInvoiceTable().getSelectedRow();
+        if (selectedRow != -1 && selectedInv != -1){
+            Invoice invoice = frame.getInvoices().get(selectedInv);
+            invoice.getItems().remove(selectedRow);
+            ItemsTableModel itemsTableModel = new ItemsTableModel(invoice.getItems());
+            frame.getItemsTable().setModel(itemsTableModel);
+            itemsTableModel.fireTableDataChanged();            
+        }
     }
 
     private void createNewItem() {
