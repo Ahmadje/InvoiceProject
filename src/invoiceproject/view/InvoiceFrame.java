@@ -8,7 +8,6 @@ package invoiceproject.view;
 import invoiceproject.controller.Controller;
 import invoiceproject.model.Invoice;
 import invoiceproject.model.InvoicesTableModel;
-import invoiceproject.model.ItemsTableModel;
 import java.awt.Label;
 import java.util.ArrayList;
 import javax.swing.JTable;
@@ -36,6 +35,15 @@ public class InvoiceFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        invDialog = new javax.swing.JDialog();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        cancleButton = new javax.swing.JButton();
+        cancleButton.addActionListener(controller);
+        okButton = new javax.swing.JButton();
+        okButton.addActionListener(controller);
         jScrollPane1 = new javax.swing.JScrollPane();
         invoiceTable = new javax.swing.JTable();
         invoiceTable.getSelectionModel().addListSelectionListener(controller);
@@ -55,7 +63,6 @@ public class InvoiceFrame extends javax.swing.JFrame {
         deleteItemButton.addActionListener(controller);
         deleteInvoiceButton = new javax.swing.JButton();
         deleteInvoiceButton.addActionListener(controller);
-
         createInvoiceButton = new javax.swing.JButton();
         createInvoiceButton.addActionListener(controller);
         jLabel1 = new javax.swing.JLabel();
@@ -65,6 +72,59 @@ public class InvoiceFrame extends javax.swing.JFrame {
         loadFileMenuItem.addActionListener(controller);
         saveFileMenuItem = new javax.swing.JMenuItem();
         saveFileMenuItem.addActionListener(controller);
+
+        invDialog.setLocation(new java.awt.Point(20, 20));
+
+        jLabel2.setText("Invoice Date");
+
+        jLabel3.setText("Customer Name");
+
+        jTextField1.setText("jTextField1");
+
+        jTextField2.setText("jTextField2");
+
+        cancleButton.setText("Cancle");
+
+        okButton.setText("OK");
+
+        javax.swing.GroupLayout invDialogLayout = new javax.swing.GroupLayout(invDialog.getContentPane());
+        invDialog.getContentPane().setLayout(invDialogLayout);
+        invDialogLayout.setHorizontalGroup(
+            invDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(invDialogLayout.createSequentialGroup()
+                .addGap(85, 85, 85)
+                .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(cancleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(invDialogLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(invDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGroup(invDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
+        );
+        invDialogLayout.setVerticalGroup(
+            invDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(invDialogLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(invDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(invDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(invDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,6 +178,11 @@ public class InvoiceFrame extends javax.swing.JFrame {
         deleteInvoiceButton.setText("Delete Invoice");
 
         createInvoiceButton.setText("Create New Invoice");
+        createInvoiceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createInvoiceButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Invoice Items");
 
@@ -206,6 +271,10 @@ public class InvoiceFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void createInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createInvoiceButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createInvoiceButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -243,26 +312,33 @@ public class InvoiceFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancleButton;
     private javax.swing.JButton createInvoiceButton;
     private javax.swing.JButton createItemButton;
     private java.awt.Label customerNameLabel;
     private javax.swing.JButton deleteInvoiceButton;
     private javax.swing.JButton deleteItemButton;
+    private javax.swing.JDialog invDialog;
     private java.awt.Label invoiceDateLabel;
     private java.awt.Label invoiceNumLabel;
     private javax.swing.JTable invoiceTable;
     private java.awt.Label invoiceTotalLabel;
     private javax.swing.JTable itemsTable;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private java.awt.Label label1;
     private java.awt.Label label2;
     private java.awt.Label label3;
     private java.awt.Label label4;
     private javax.swing.JMenuItem loadFileMenuItem;
+    private javax.swing.JButton okButton;
     private javax.swing.JMenuItem saveFileMenuItem;
     // End of variables declaration//GEN-END:variables
 
@@ -316,7 +392,5 @@ private InvoicesTableModel invoicesTableModel;
 
     public ListSelectionEvent getItemsTableModel(int selectedRow) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-
+    }    
 }
