@@ -5,7 +5,6 @@ import invoiceproject.model.Invoice;
 import invoiceproject.model.InvoicesTableModel;
 import invoiceproject.model.Items;
 import invoiceproject.model.ItemsTableModel;
-import invoiceproject.view.InvoiceDialog;
 import invoiceproject.view.InvoiceFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,9 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -53,17 +50,17 @@ public class Controller implements ActionListener, ListSelectionListener {
             case "Delete Item":
                 deleteItem();
                 break;   
-            case "createInvoiceCancel":
+            case "Create Invoice Cancel":
                 createInvoiceCancel();
                 break;
-            case "createInvoiceOK":
+            case "create Invoice OK":
                 createInvoiceOK();
                 break;
-            case "createLineOK":
-                createLineOK();
+            case "Create Item OK":
+                createItemOK();
                 break;
-            case "createLineCancel":
-                createLineCancel();
+            case "Create Item Cancel":
+                createItemCancel();
                 break;
                         
     }    
@@ -178,9 +175,8 @@ public class Controller implements ActionListener, ListSelectionListener {
         }
         catch (Exception ex) {}        
     }                                                                                               
-    private void createNewInvoice() {
-        InvoiceDialog invoiceDialog = new InvoiceDialog(frame);
-        invoiceDialog.setVisible(true);        
+    private void createNewInvoice() { 
+        frame.getInvDialog().setVisible(true);            
     }
 
     private void deleteInvoice() {
@@ -192,6 +188,7 @@ public class Controller implements ActionListener, ListSelectionListener {
     }                      
 
     private void createNewItem() {
+        frame.getItemDialog().setVisible(true);
     }
 
     private void deleteItem() {
@@ -203,18 +200,51 @@ public class Controller implements ActionListener, ListSelectionListener {
             ItemsTableModel itemsTableModel = new ItemsTableModel(invoice.getItems());
             frame.getItemsTable().setModel(itemsTableModel);
             itemsTableModel.fireTableDataChanged(); 
+            frame.getInvoicesTableModel().fireTableDataChanged();
         }
     }
 
     private void createInvoiceCancel() {
+        frame.getInvDialog().setVisible(false);
+        frame.getInvDialog().dispose();       
     }
 
     private void createInvoiceOK() {
+        String date = frame.getInvDateField().getText();
+        String customer = frame.getCustNameField().getText();
+        int num = frame.getNextInvoiceNum();
+        
+        Invoice invoice = new Invoice(num, date, customer);
+        frame.getInvoices().add(invoice);       
+        frame.getInvoicesTableModel().fireTableDataChanged();
+        frame.getInvDialog().setVisible(false);
+        frame.getInvDialog().dispose();
+        frame.setInvDialog(null);
     }
 
-    private void createLineOK() {
+    private void createItemOK() {
+        String item = frame.getItemNameField().getText();
+        String countString = frame.getItemCountField().getText();
+        String priceString = frame.getItemPriceField().getText();
+        int count = Integer.parseInt(countString);
+        double price = Double.parseDouble(priceString);
+        int selectedInvoice = frame.getInvoiceTable().getSelectedRow();
+        if (selectedInvoice != -1){
+            Invoice invoice = frame.getInvoices().get(selectedInvoice);
+            Items items = new Items(selectedInvoice, item , price, count, invoice);
+            invoice.getItems().add(items);
+            ItemsTableModel itemsTableModel = new ItemsTableModel(invoice.getItems());
+            frame.getItemsTable().setModel(itemsTableModel);
+            itemsTableModel.fireTableDataChanged();
+            frame.getInvoicesTableModel().fireTableDataChanged();
+        }                        
+        frame.getItemDialog().setVisible(false);
+        frame.getItemDialog().dispose();
+        frame.setItemDialog(null);
     }
 
-    private void createLineCancel() {
+    private void createItemCancel() {
+        frame.getItemDialog().setVisible(false);
+        frame.getItemDialog().dispose(); 
     }
 }
